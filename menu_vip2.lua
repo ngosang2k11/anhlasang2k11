@@ -83,16 +83,20 @@ NPC.Touched:Connect(function(hit)
     if randomVipEnabled and hit.Parent:FindFirstChild("Humanoid") then
         local player = game.Players:GetPlayerFromCharacter(hit.Parent)
         if player then
-            -- Random trái ác quỷ
+            -- Danh sách trái cố định
             local fruits = {"Dough", "Kitsune", "Dragon"}
-            local randomFruit = fruits[math.random(#fruits)]
-            print(player.Name .. " đã nhận được trái: " .. randomFruit)
+            
+            -- Random trái từ danh sách
+            local randomIndex = math.random(1, #fruits)
+            local randomFruit = fruits[randomIndex]
             
             -- Thông báo cho người chơi
             player:WaitForChild("PlayerGui"):SetCore("ChatMakeSystemMessage", {
                 Text = "Bạn đã nhận được trái: " .. randomFruit;
-                Color = Color3.new(1, 1, 0);
+                Color = Color3.new(1, 1, 0); -- Màu vàng
             })
+            
+            print(player.Name .. " đã nhận được trái: " .. randomFruit)
         end
     end
 end)
