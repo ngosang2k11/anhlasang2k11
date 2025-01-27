@@ -1,125 +1,78 @@
--- Lấy đối tượng của người chơi
 local player = game.Players.LocalPlayer
-local playerGui = player.PlayerGui
-
--- Tạo GUI chứa logo và menu
 local screenGui = Instance.new("ScreenGui")
-screenGui.Parent = playerGui
+screenGui.Parent = player:WaitForChild("PlayerGui")
 
--- Tạo logo dưới dạng một ImageButton
-local logoButton = Instance.new("ImageButton")
-logoButton.Size = UDim2.new(0, 57, 0, 57) -- Kích thước của logo
-logoButton.Position = UDim2.new(0, 50, 0, 10) -- Di chuyển logo sang bên trái nhiều hơn
-logoButton.Image = "http://www.roblox.com/asset/?id=126101456053607" -- Thay bằng URL hình ảnh logo
-logoButton.Parent = screenGui
+-- Tạo khung menu
+local menuFrame = Instance.new("Frame")
+menuFrame.Size = UDim2.new(0.3, 0, 0.5, 0)
+menuFrame.Position = UDim2.new(0.35, 0, 0.25, 0)
+menuFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)  -- Màu nền đen
+menuFrame.BackgroundTransparency = 0.5
+menuFrame.Visible = false  -- Mặc định ẩn menu
+menuFrame.Parent = screenGui
 
--- Tạo menu (ẩn ban đầu)
-local menu = Instance.new("Frame")
-menu.Size = UDim2.new(0, 300, 0, 400) -- Kích thước của menu
-menu.Position = UDim2.new(0.5, -150, 0.5, -200) -- Vị trí của menu
-menu.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Màu nền của menu
-menu.Visible = false -- Ẩn menu ban đầu
-menu.Parent = screenGui
+-- Thêm tiêu đề cho menu
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, 0, 0.2, 0)
+titleLabel.Text = "SANG IOS"  -- Tên menu là "SANG IOS"
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Màu chữ trắng
+titleLabel.TextScaled = true
+titleLabel.BackgroundTransparency = 1
+titleLabel.Parent = screenGui
 
--- Tạo tiêu đề cho menu
-local menuTitle = Instance.new("TextLabel")
-menuTitle.Size = UDim2.new(0, 300, 0, 50) -- Kích thước của tiêu đề
-menuTitle.Position = UDim2.new(0, 0, 0, 0) -- Vị trí tiêu đề ở đầu menu
-menuTitle.Text = "SANG IOS V1" -- Tiêu đề menu
-menuTitle.TextSize = 24 -- Kích thước chữ
-menuTitle.TextColor3 = Color3.fromRGB(0, 0, 0) -- Màu chữ
-menuTitle.BackgroundTransparency = 1 -- Không có nền cho tiêu đề
-menuTitle.Parent = menu
-
--- Tạo một nút "RANDOM PRO" trong menu
-local randomProButton = Instance.new("TextButton")
-randomProButton.Size = UDim2.new(0, 200, 0, 50)
-randomProButton.Position = UDim2.new(0.5, -100, 0.3, 0)
-randomProButton.Text = "RANDOM PRO"
-randomProButton.Parent = menu
-
--- Tạo một công tắc (switch) để bật/tắt RANDOM PRO
-local switchButton = Instance.new("TextButton")
-switchButton.Size = UDim2.new(0, 100, 0, 50)
-switchButton.Position = UDim2.new(0.5, -50, 0.5, -25)
-switchButton.Text = "TẮT"
-switchButton.Parent = menu
-
--- Biến trạng thái của RANDOM PRO và số lượt random trái ác quỷ
-local isRandomProActive = false
-local randomDevilFruitCount = 0  -- Biến để lưu số lượt random trái ác quỷ
-
--- Các trái ác quỷ có thể random được
-local devilFruits = {"Dragon", "Kisune", "Dough", "Leopard", "Portal"}
-
--- Tạo một TextLabel cho thông báo bật/tắt chức năng
-local notification = Instance.new("TextLabel")
-notification.Size = UDim2.new(0, 300, 0, 50)
-notification.Position = UDim2.new(0.5, -150, 0.2, 0) -- Vị trí thông báo trên màn hình
-notification.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Màu nền của thông báo
-notification.TextColor3 = Color3.fromRGB(255, 255, 255) -- Màu chữ thông báo
-notification.TextSize = 20
-notification.Text = "" -- Ban đầu không có thông báo
-notification.Visible = false -- Ẩn thông báo ban đầu
-notification.Parent = screenGui
-
--- Hàm để bật/tắt RANDOM PRO và cập nhật số lượt random trái ác quỷ
-local function toggleRandomPro()
-    isRandomProActive = not isRandomProActive
-    if isRandomProActive then
-        switchButton.Text = "BẬT"
-        randomDevilFruitCount = 70000  -- Đặt số lượt random trái ác quỷ khi bật
-        print("RANDOM PRO đã được bật! Số lượt random trái ác quỷ: " .. randomDevilFruitCount)
-
-        -- Hiển thị thông báo bật chức năng
-        notification.Text = "Bạn Đã Bật Chức Năng"
-        notification.Visible = true
-        
-        -- Ẩn thông báo sau 3 giây
-        wait(3)
-        notification.Visible = false
-
-        -- Bắt đầu quá trình random trái ác quỷ
-        randomDevilFruit()
-    else
-        switchButton.Text = "TẮT"
-        randomDevilFruitCount = 0  -- Đặt lại số lượt random trái ác quỷ khi tắt
-        print("RANDOM PRO đã được tắt! Số lượt random trái ác quỷ: " .. randomDevilFruitCount)
-
-        -- Hiển thị thông báo tắt chức năng
-        notification.Text = "Bạn Đã Tắt Chức Năng"
-        notification.Visible = true
-        
-        -- Ẩn thông báo sau 3 giây
-        wait(3)
-        notification.Visible = false
-    end
-end
-
--- Hàm random trái ác quỷ với tỉ lệ
-local function randomDevilFruit()
-    -- Tỉ lệ random (98% trái ác quỷ và 2% không có trái ác quỷ)
-    local randomChance = math.random(1, 100)
-    
-    if randomChance <= 98 then
-        -- Chọn ngẫu nhiên trái ác quỷ từ danh sách
-        local chosenFruit = devilFruits[math.random(1, #devilFruits)]
-        print("Trái ác quỷ bạn nhận được: " .. chosenFruit)
-    else
-        print("Bạn không nhận được trái ác quỷ lần này!")
-    end
-end
-
--- Kết nối sự kiện khi nhấn vào "RANDOM PRO"
-randomProButton.MouseButton1Click:Connect(function()
-    print("RANDOM PRO đã được bật!")
-    toggleRandomPro() -- Bật/tắt chức năng RANDOM PRO
+-- Khi nhấn vào tiêu đề, mở hoặc ẩn menu
+titleLabel.MouseButton1Click:Connect(function()
+    menuFrame.Visible = not menuFrame.Visible  -- Đảo ngược trạng thái ẩn/hiện của menu
 end)
 
--- Hàm toggle menu (hiện/ẩn)
-local function toggleMenu()
-    menu.Visible = not menu.Visible
+-- Thêm chức năng RD_PRO với công tắc On/Off
+local rdProLabel = Instance.new("TextLabel")
+rdProLabel.Size = UDim2.new(1, 0, 0.2, 0)
+rdProLabel.Position = UDim2.new(0, 0, 0.2, 0)
+rdProLabel.Text = "RD_PRO: OFF"  -- Ban đầu là OFF
+rdProLabel.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Màu chữ trắng
+rdProLabel.TextScaled = true
+rdProLabel.BackgroundTransparency = 1
+rdProLabel.Parent = menuFrame
+
+-- Tạo công tắc On/Off (Switch)
+local switch1 = Instance.new("TextButton")
+switch1.Size = UDim2.new(0.3, 0, 0.2, 0)
+switch1.Position = UDim2.new(0.35, 0, 0.4, 0)
+switch1.Text = "OFF"  -- Ban đầu là OFF
+switch1.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Màu chữ trắng
+switch1.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Màu đỏ cho trạng thái OFF
+switch1.TextScaled = true
+switch1.Parent = menuFrame
+
+-- Hàm để random fruit (Luôn trả về Dragon Fruit)
+local function giveRandomFruit()
+    local fruit = "Dragon_Fruit"  -- Cứng định trả về Dragon_Fruit
+    print(player.Name .. " đã nhận trái " .. fruit)
+    
+    -- Giả sử bạn có một hệ thống trái cây trong Blox Fruits, bạn sẽ thêm Dragon_Fruit vào đây
+    -- Dưới đây là ví dụ đơn giản (có thể thêm Dragon_Fruit vào Backpack)
+    local dragonFruit = game.ServerStorage:FindFirstChild("Dragon_Fruit") -- Giả sử Dragon_Fruit có trong ServerStorage
+    if dragonFruit then
+        local newFruit = dragonFruit:Clone()  -- Tạo một bản sao của Dragon_Fruit
+        newFruit.Parent = player.Backpack  -- Thêm Dragon_Fruit vào Backpack của người chơi
+    else
+        print("Không tìm thấy Dragon_Fruit trong ServerStorage")
+    end
 end
 
--- Kết nối sự kiện khi nhấn vào logo
-logoButton.MouseButton1Click:Connect(toggleMenu)
+-- Khi người chơi nhấn vào công tắc, chuyển trạng thái RD_PRO và thực hiện các hành động
+switch1.MouseButton1Click:Connect(function()
+    if switch1.Text == "OFF" then
+        switch1.Text = "ON"  -- Đổi thành ON
+        switch1.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- Màu xanh cho ON
+        rdProLabel.Text = "RD_PRO: ON"  -- Thay đổi trạng thái RD_PRO
+        
+        -- Người chơi sẽ nhận Dragon_Fruit khi bật công tắc
+        giveRandomFruit()
+    else
+        switch1.Text = "OFF"  -- Đổi lại thành OFF
+        switch1.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Màu đỏ cho OFF
+        rdProLabel.Text = "RD_PRO: OFF"  -- Thay đổi trạng thái RD_PRO
+    end
+end)
