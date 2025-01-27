@@ -8,6 +8,7 @@ menuFrame.Parent = screenGui
 menuFrame.Size = UDim2.new(0, 300, 0, 200)
 menuFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
 menuFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Nền màu đen
+menuFrame.Visible = false -- Ẩn menu mặc định
 
 local title = Instance.new("TextLabel")
 title.Parent = menuFrame
