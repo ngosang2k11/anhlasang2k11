@@ -8,7 +8,7 @@ screenGui.Parent = playerGui
 
 -- Tạo logo dưới dạng một ImageButton
 local logoButton = Instance.new("ImageButton")
-logoButton.Size = UDim2.new(0, 200, 0, 200) -- Kích thước của logo
+logoButton.Size = UDim2.new(0, 65, 0, 65) -- Kích thước của logo
 logoButton.Position = UDim2.new(0.5, -100, 0, 10) -- Vị trí của logo
 logoButton.Image = "http://www.roblox.com/asset/?id=126101456053607" -- Thay bằng URL hình ảnh logo
 logoButton.Parent = screenGui
@@ -26,7 +26,7 @@ local menuTitle = Instance.new("TextLabel")
 menuTitle.Size = UDim2.new(0, 300, 0, 50) -- Kích thước của tiêu đề
 menuTitle.Position = UDim2.new(0, 0, 0, 0) -- Vị trí tiêu đề ở đầu menu
 menuTitle.Text = "SANG IOS V1" -- Tiêu đề menu
-menuTitle.TextSize = 24 -- Kích thước chữ
+menuTitle.TextSize = 10 -- Kích thước chữ
 menuTitle.TextColor3 = Color3.fromRGB(0, 0, 0) -- Màu chữ
 menuTitle.BackgroundTransparency = 1 -- Không có nền cho tiêu đề
 menuTitle.Parent = menu
@@ -110,9 +110,54 @@ local function randomDevilFruit()
     end
 end
 
+-- Xử lý sự kiện kéo cho logo và menu
+local draggingLogo = false
+local draggingMenu = false
+local dragInputObject = nil
+local dragStartPos = nil
+local dragOffset = nil
+
+-- Logo kéo
+logoButton.MouseButton1Down:Connect(function(input)
+    draggingLogo = true
+    dragStartPos = input.Position
+    dragInputObject = input
+    dragOffset = logoButton.Position - UDim2.new(0, dragStartPos.X, 0, dragStartPos.Y)
+end)
+
+logoButton.MouseMoved:Connect(function(input)
+    if draggingLogo then
+        local newPos = UDim2.new(0, input.Position.X, 0, input.Position.Y) + dragOffset
+        logoButton.Position = newPos
+    end
+end)
+
+logoButton.MouseButton1Up:Connect(function()
+    draggingLogo = false
+end)
+
+-- Menu kéo
+menu.MouseButton1Down:Connect(function(input)
+    draggingMenu = true
+    dragStartPos = input.Position
+    dragInputObject = input
+    dragOffset = menu.Position - UDim2.new(0, dragStartPos.X, 0, dragStartPos.Y)
+end)
+
+menu.MouseMoved:Connect(function(input)
+    if draggingMenu then
+        local newPos = UDim2.new(0, input.Position.X, 0, input.Position.Y) + dragOffset
+        menu.Position = newPos
+    end
+end)
+
+menu.MouseButton1Up:Connect(function()
+    draggingMenu = false
+end)
+
 -- Kết nối sự kiện khi nhấn vào "RANDOM PRO"
 randomProButton.MouseButton1Click:Connect(function()
-    print("RANDOM PRO đã được bật!")
+    print("RANDOM PRO đã được nhấn!")
     toggleRandomPro() -- Bật/tắt chức năng RANDOM PRO
 end)
 
