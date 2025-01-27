@@ -2,12 +2,12 @@
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
--- Tạo một Frame cho menu
+-- Tạo một Frame cho menu và căn giữa màn hình
 local menuFrame = Instance.new("Frame")
 menuFrame.Parent = screenGui
 menuFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)  -- Nền màu đen
 menuFrame.Size = UDim2.new(0, 200, 0, 150)  -- Kích thước menu
-menuFrame.Position = UDim2.new(0, 300, 0, 200)  -- Vị trí menu
+menuFrame.Position = UDim2.new(0.5, -100, 0.5, -75)  -- Căn giữa màn hình
 menuFrame.BorderColor3 = Color3.fromRGB(255, 0, 0)  -- Viền màu đỏ
 menuFrame.Visible = false  -- Ban đầu ẩn menu
 
@@ -15,8 +15,8 @@ menuFrame.Visible = false  -- Ban đầu ẩn menu
 local toggleButton = Instance.new("TextButton")
 toggleButton.Parent = screenGui
 toggleButton.Size = UDim2.new(0, 200, 0, 50)
-toggleButton.Position = UDim2.new(0, 10, 0, 10)  -- Vị trí nút ở góc trên bên trái
-toggleButton.AnchorPoint = Vector2.new(0, 0)  -- Gắn nút ở góc trên bên trái
+toggleButton.Position = UDim2.new(0.5, -100, 0, 10)  -- Vị trí nút ở trên cùng và căn giữa
+toggleButton.AnchorPoint = Vector2.new(0.5, 0)  -- Gắn nút ở giữa
 toggleButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)  -- Nền màu đen
 toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Chữ trắng
 toggleButton.Text = "SANG IOS"  -- Tên nút là "SANG IOS"
@@ -28,7 +28,7 @@ local switchButton = Instance.new("TextButton")
 switchButton.Parent = menuFrame
 switchButton.Size = UDim2.new(0, 180, 0, 50)  -- Kích thước của switch
 switchButton.Position = UDim2.new(0, 10, 0, 60)  -- Vị trí switch trong menu
-switchButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)  -- Nền màu đen
+switchButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Màu nền đỏ khi OFF
 switchButton.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Chữ trắng
 switchButton.Text = "Switch: OFF"  -- Văn bản ban đầu của switch
 switchButton.Font = Enum.Font.SourceSans
@@ -73,8 +73,8 @@ local function randomDevilFruit()
         -- Nếu switch tắt, chọn ngẫu nhiên trái ác quỷ khác
         local fruits = {
             "Kisune",  -- Ví dụ trái ác quỷ Phoenix
-            "Leopard",  -- Ví dụ trái ác quỷ Magma
-            "Yeti",  -- Ví dụ trái ác quỷ Ice
+            "Yeti",  -- Ví dụ trái ác quỷ Magma
+            "Leopard",  -- Ví dụ trái ác quỷ Ice
             -- Có thể thêm nhiều trái ác quỷ khác vào danh sách này
         }
 
