@@ -9,7 +9,7 @@ screenGui.Parent = playerGui
 -- Tạo logo dưới dạng một ImageButton
 local logoButton = Instance.new("ImageButton")
 logoButton.Size = UDim2.new(0, 57, 0, 57) -- Kích thước của logo
-logoButton.Position = UDim2.new(0.5, -100, 0, 10) -- Vị trí của logo
+logoButton.Position = UDim2.new(0, 50, 0, 10) -- Di chuyển logo sang bên trái nhiều hơn
 logoButton.Image = "http://www.roblox.com/asset/?id=126101456053607" -- Thay bằng URL hình ảnh logo
 logoButton.Parent = screenGui
 
