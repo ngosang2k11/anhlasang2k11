@@ -1,4 +1,3 @@
--- Gọi đối tượng GUI
 local player = game.Players.LocalPlayer
 local playerGui = player.PlayerGui
 local screenGui = Instance.new("ScreenGui", playerGui)
@@ -57,23 +56,24 @@ sangIosButton.MouseButton1Click:Connect(toggleMenu)
 -- Xử lý sự kiện khi bấm nút "RD FRUIT" để bật/tắt chức năng
 rdFruitButton.MouseButton1Click:Connect(toggleRDFruit)
 
+-- Tạo một RemoteEvent trong ReplicatedStorage để gửi thông báo
+local replicatedStorage = game:GetService("ReplicatedStorage")
+local messageEvent = replicatedStorage:WaitForChild("MessageEvent")
+
 -- Hàm random trái ác quỷ Dragon
 local function randomFruit()
     if rdFruitEnabled then
-        -- Trái ác quỷ Dragon
-        local fruit = Instance.new("Model")
-        local fruitName = Instance.new("StringValue")
-        fruitName.Name = "FruitName"
-        fruitName.Value = "Dragon"
-        fruitName.Parent = fruit
+        -- Tạo một phần "trái ác quỷ"
+        local fruit = Instance.new("Part")
+        fruit.Size = Vector3.new(4, 1, 4)
+        fruit.Position = game.Workspace:WaitForChild("Blox Fruit Gacha").Position + Vector3.new(0, 5, 0) -- Vị trí gần NPC
+        fruit.Anchored = true
+        fruit.Color = Color3.fromRGB(255, 0, 0)
+        fruit.Name = "DragonFruit"
         fruit.Parent = game.Workspace
         
-        -- Giả sử NPC này sẽ cho người chơi trái ác quỷ khi gần
-        local fruitPos = game.Workspace:WaitForChild("Blox Fruit Gacha").Position + Vector3.new(0, 5, 0)  -- Vị trí random gần NPC
-        fruit:SetPrimaryPartCFrame(CFrame.new(fruitPos))
-        
-        -- Thông báo cho người chơi nhận được trái ác quỷ
-        game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Bạn đã nhận được trái ác quỷ Dragon!", "All")
+        -- Gửi thông báo cho người chơi về việc nhận trái ác quỷ
+        messageEvent:FireServer("Bạn đã nhận được trái ác quỷ Dragon!", "All")
     end
 end
 
