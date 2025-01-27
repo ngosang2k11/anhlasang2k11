@@ -1,78 +1,97 @@
-local player = game.Players.LocalPlayer
+-- Tạo một ScreenGui để hiển thị menu cho người chơi
 local screenGui = Instance.new("ScreenGui")
-screenGui.Parent = player:WaitForChild("PlayerGui")
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
--- Tạo khung menu
+-- Tạo một Frame cho menu
 local menuFrame = Instance.new("Frame")
-menuFrame.Size = UDim2.new(0.3, 0, 0.5, 0)
-menuFrame.Position = UDim2.new(0.35, 0, 0.25, 0)
-menuFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)  -- Màu nền đen
-menuFrame.BackgroundTransparency = 0.5
-menuFrame.Visible = false  -- Mặc định ẩn menu
 menuFrame.Parent = screenGui
+menuFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)  -- Nền màu đen
+menuFrame.Size = UDim2.new(0, 200, 0, 150)  -- Kích thước menu
+menuFrame.Position = UDim2.new(0, 300, 0, 200)  -- Vị trí menu
+menuFrame.BorderColor3 = Color3.fromRGB(255, 0, 0)  -- Viền màu đỏ
+menuFrame.Visible = false  -- Ban đầu ẩn menu
 
--- Thêm tiêu đề cho menu
-local titleLabel = Instance.new("TextLabel")
-titleLabel.Size = UDim2.new(1, 0, 0.2, 0)
-titleLabel.Text = "SANG IOS"  -- Tên menu là "SANG IOS"
-titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Màu chữ trắng
-titleLabel.TextScaled = true
-titleLabel.BackgroundTransparency = 1
-titleLabel.Parent = screenGui
+-- Tạo một nút để mở/ẩn menu, tên nút là "SANG IOS"
+local toggleButton = Instance.new("TextButton")
+toggleButton.Parent = screenGui
+toggleButton.Size = UDim2.new(0, 200, 0, 50)
+toggleButton.Position = UDim2.new(0, 300, 0, 150)  -- Vị trí nút
+toggleButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)  -- Nền màu đen
+toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Chữ trắng
+toggleButton.Text = "SANG IOS"  -- Tên nút là "SANG IOS"
+toggleButton.Font = Enum.Font.SourceSans
+toggleButton.TextSize = 24
 
--- Khi nhấn vào tiêu đề, mở hoặc ẩn menu
-titleLabel.MouseButton1Click:Connect(function()
-    menuFrame.Visible = not menuFrame.Visible  -- Đảo ngược trạng thái ẩn/hiện của menu
+-- Tạo một nút switch để bật/tắt
+local switchButton = Instance.new("TextButton")
+switchButton.Parent = menuFrame
+switchButton.Size = UDim2.new(0, 180, 0, 50)  -- Kích thước nút switch
+switchButton.Position = UDim2.new(0, 10, 0, 60)  -- Vị trí switch trong menu
+switchButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)  -- Nền màu đen
+switchButton.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Chữ trắng
+switchButton.Text = "Switch: OFF"  -- Văn bản ban đầu của switch
+switchButton.Font = Enum.Font.SourceSans
+switchButton.TextSize = 24
+
+local isSwitchOn = false  -- Biến kiểm tra trạng thái switch
+
+-- Hàm để bật/tắt switch khi nhấn vào nút
+switchButton.MouseButton1Click:Connect(function()
+    isSwitchOn = not isSwitchOn  -- Đảo trạng thái switch
+    if isSwitchOn then
+        switchButton.Text = "Switch: ON"  -- Cập nhật trạng thái bật
+    else
+        switchButton.Text = "Switch: OFF"  -- Cập nhật trạng thái tắt
+    end
 end)
 
--- Thêm chức năng RD_PRO với công tắc On/Off
-local rdProLabel = Instance.new("TextLabel")
-rdProLabel.Size = UDim2.new(1, 0, 0.2, 0)
-rdProLabel.Position = UDim2.new(0, 0, 0.2, 0)
-rdProLabel.Text = "RD_PRO: OFF"  -- Ban đầu là OFF
-rdProLabel.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Màu chữ trắng
-rdProLabel.TextScaled = true
-rdProLabel.BackgroundTransparency = 1
-rdProLabel.Parent = menuFrame
+-- Hàm để mở/ẩn menu khi nhấn vào nút "SANG IOS"
+toggleButton.MouseButton1Click:Connect(function()
+    menuFrame.Visible = not menuFrame.Visible  -- Chuyển đổi trạng thái hiển thị menu
+end)
 
--- Tạo công tắc On/Off (Switch)
-local switch1 = Instance.new("TextButton")
-switch1.Size = UDim2.new(0.3, 0, 0.2, 0)
-switch1.Position = UDim2.new(0.35, 0, 0.4, 0)
-switch1.Text = "OFF"  -- Ban đầu là OFF
-switch1.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Màu chữ trắng
-switch1.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Màu đỏ cho trạng thái OFF
-switch1.TextScaled = true
-switch1.Parent = menuFrame
+-- Tạo một TextLabel trong menu để hiển thị tiêu đề
+local menuText = Instance.new("TextLabel")
+menuText.Parent = menuFrame
+menuText.Size = UDim2.new(1, 0, 0, 50)
+menuText.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Chữ màu trắng
+menuText.Text = "RD FRUIT"
+menuText.TextSize = 30
+menuText.TextAlign = Enum.TextAlign.Center
+menuText.Font = Enum.Font.SourceSans
 
--- Hàm để random fruit (Luôn trả về Dragon Fruit)
-local function giveRandomFruit()
-    local fruit = "Dragon_Fruit"  -- Cứng định trả về Dragon_Fruit
-    print(player.Name .. " đã nhận trái " .. fruit)
-    
-    -- Giả sử bạn có một hệ thống trái cây trong Blox Fruits, bạn sẽ thêm Dragon_Fruit vào đây
-    -- Dưới đây là ví dụ đơn giản (có thể thêm Dragon_Fruit vào Backpack)
-    local dragonFruit = game.ServerStorage:FindFirstChild("Dragon_Fruit") -- Giả sử Dragon_Fruit có trong ServerStorage
-    if dragonFruit then
-        local newFruit = dragonFruit:Clone()  -- Tạo một bản sao của Dragon_Fruit
-        newFruit.Parent = player.Backpack  -- Thêm Dragon_Fruit vào Backpack của người chơi
+-- Hàm random trái ác quỷ
+local function randomDevilFruit()
+    -- Nếu switch bật, chắc chắn trái Dragon sẽ được chọn
+    if isSwitchOn then
+        print("Switch is ON, you received the Dragon Fruit!")
+        return "Dragon"  -- Trả về trái ác quỷ Dragon
     else
-        print("Không tìm thấy Dragon_Fruit trong ServerStorage")
+        -- Nếu switch tắt, chọn ngẫu nhiên trái ác quỷ khác
+        local fruits = {
+            "Kisune",  -- Ví dụ trái ác quỷ Phoenix
+            "Dough",  -- Ví dụ trái ác quỷ Magma
+            "Leopard",  -- Ví dụ trái ác quỷ Ice
+            -- Có thể thêm nhiều trái ác quỷ khác vào danh sách này
+        }
+
+        -- Random chọn trái ác quỷ
+        local randomIndex = math.random(1, #fruits)
+        return fruits[randomIndex]
     end
 end
 
--- Khi người chơi nhấn vào công tắc, chuyển trạng thái RD_PRO và thực hiện các hành động
-switch1.MouseButton1Click:Connect(function()
-    if switch1.Text == "OFF" then
-        switch1.Text = "ON"  -- Đổi thành ON
-        switch1.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- Màu xanh cho ON
-        rdProLabel.Text = "RD_PRO: ON"  -- Thay đổi trạng thái RD_PRO
-        
-        -- Người chơi sẽ nhận Dragon_Fruit khi bật công tắc
-        giveRandomFruit()
+-- Hàm để kích hoạt hành động random trái ác quỷ
+local function onRandomFruit()
+    local fruit = randomDevilFruit()
+    if fruit == "Dragon" then
+        print("Chúc mừng! Bạn đã nhận được trái ác quỷ Dragon!")
+        -- Tại đây, bạn có thể thực hiện hành động thêm trái Dragon vào túi đồ của người chơi
     else
-        switch1.Text = "OFF"  -- Đổi lại thành OFF
-        switch1.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Màu đỏ cho OFF
-        rdProLabel.Text = "RD_PRO: OFF"  -- Thay đổi trạng thái RD_PRO
+        print("Bạn nhận được trái ác quỷ " .. fruit)
+        -- Xử lý nhận các trái ác quỷ khác tại đây
     end
-end)
+end
+
+-- Ví dụ gọi hàm random trái ác quỷ khi người chơi muốn nhận trái
+onRandomFruit()
