@@ -6,14 +6,14 @@ local playerGui = player.PlayerGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = playerGui
 
--- Tạo logo dưới dạng một ImageButton (Logo sẽ nhỏ hơn)
+-- Tạo logo dưới dạng một ImageButton
 local logoButton = Instance.new("ImageButton")
-logoButton.Size = UDim2.new(0, 62, 0, 62) -- Kích thước nhỏ của logo
-logoButton.Position = UDim2.new(0.5, -50, 0, 10) -- Vị trí của logo
+logoButton.Size = UDim2.new(0, 57, 0, 57) -- Kích thước của logo
+logoButton.Position = UDim2.new(0.5, -100, 0, 10) -- Vị trí của logo
 logoButton.Image = "http://www.roblox.com/asset/?id=126101456053607" -- Thay bằng URL hình ảnh logo
 logoButton.Parent = screenGui
 
--- Tạo menu (vẫn giữ kích thước cũ của menu)
+-- Tạo menu (ẩn ban đầu)
 local menu = Instance.new("Frame")
 menu.Size = UDim2.new(0, 300, 0, 400) -- Kích thước của menu
 menu.Position = UDim2.new(0.5, -150, 0.5, -200) -- Vị trí của menu
@@ -110,54 +110,9 @@ local function randomDevilFruit()
     end
 end
 
--- Xử lý sự kiện kéo cho logo và menu
-local draggingLogo = false
-local draggingMenu = false
-local dragInputObject = nil
-local dragStartPos = nil
-local dragOffset = nil
-
--- Logo kéo
-logoButton.MouseButton1Down:Connect(function(input)
-    draggingLogo = true
-    dragStartPos = input.Position
-    dragInputObject = input
-    dragOffset = logoButton.Position - UDim2.new(0, dragStartPos.X, 0, dragStartPos.Y)
-end)
-
-logoButton.MouseMoved:Connect(function(input)
-    if draggingLogo then
-        local newPos = UDim2.new(0, input.Position.X, 0, input.Position.Y) + dragOffset
-        logoButton.Position = newPos
-    end
-end)
-
-logoButton.MouseButton1Up:Connect(function()
-    draggingLogo = false
-end)
-
--- Menu kéo
-menu.MouseButton1Down:Connect(function(input)
-    draggingMenu = true
-    dragStartPos = input.Position
-    dragInputObject = input
-    dragOffset = menu.Position - UDim2.new(0, dragStartPos.X, 0, dragStartPos.Y)
-end)
-
-menu.MouseMoved:Connect(function(input)
-    if draggingMenu then
-        local newPos = UDim2.new(0, input.Position.X, 0, input.Position.Y) + dragOffset
-        menu.Position = newPos
-    end
-end)
-
-menu.MouseButton1Up:Connect(function()
-    draggingMenu = false
-end)
-
 -- Kết nối sự kiện khi nhấn vào "RANDOM PRO"
 randomProButton.MouseButton1Click:Connect(function()
-    print("RANDOM PRO đã được nhấn!")
+    print("RANDOM PRO đã được bật!")
     toggleRandomPro() -- Bật/tắt chức năng RANDOM PRO
 end)
 
