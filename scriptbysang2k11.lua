@@ -63,22 +63,20 @@ toggle.Parent = switch
 local randomVipEnabled = false
 
 -- Hàm xử lý bật/tắt switch
-switch.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        randomVipEnabled = not randomVipEnabled
-        if randomVipEnabled then
-            toggle.Position = UDim2.new(0.5, 0, 0, 0) -- Chuyển công tắc sang phải
-            toggle.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- Màu xanh (ON)
-            print("RANDOM VIP: ON")
-            -- Logic random trái ác quỷ
-            local fruits = {"Dough", "Kitsune", "Dragon"}
-            local randomFruit = fruits[math.random(1, #fruits)]
-            print("Bạn đã nhận được trái ác quỷ: " .. randomFruit)
-        else
-            toggle.Position = UDim2.new(0, 0, 0, 0) -- Chuyển công tắc sang trái
-            toggle.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- Màu đỏ (OFF)
-            print("RANDOM VIP: OFF")
-        end
+switch.MouseButton1Click:Connect(function()
+    randomVipEnabled = not randomVipEnabled
+    if randomVipEnabled then
+        toggle.Position = UDim2.new(0.5, 0, 0, 0) -- Chuyển công tắc sang phải
+        toggle.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- Màu xanh (ON)
+        print("RANDOM VIP: ON")
+        -- Logic random trái ác quỷ
+        local fruits = {"Dough", "Kitsune", "Dragon"}
+        local randomFruit = fruits[math.random(1, #fruits)]
+        print("Bạn đã nhận được trái ác quỷ: " .. randomFruit)
+    else
+        toggle.Position = UDim2.new(0, 0, 0, 0) -- Chuyển công tắc sang trái
+        toggle.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- Màu đỏ (OFF)
+        print("RANDOM VIP: OFF")
     end
 end)
 
