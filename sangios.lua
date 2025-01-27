@@ -1,6 +1,7 @@
 local player = game.Players.LocalPlayer
 local playerGui = player.PlayerGui
-local screenGui = Instance.new("ScreenGui", playerGui)
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = playerGui  -- Đảm bảo screenGui được thêm vào đúng PlayerGui
 
 -- Tạo phần menu
 local menuFrame = Instance.new("Frame", screenGui)
