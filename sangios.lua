@@ -6,14 +6,14 @@ local playerGui = player.PlayerGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = playerGui
 
--- Tạo logo dưới dạng một ImageButton
+-- Tạo logo dưới dạng một ImageButton (Logo sẽ nhỏ hơn)
 local logoButton = Instance.new("ImageButton")
-logoButton.Size = UDim2.new(0, 65, 0, 65) -- Kích thước của logo
-logoButton.Position = UDim2.new(0.5, -100, 0, 10) -- Vị trí của logo
+logoButton.Size = UDim2.new(0, 100, 0, 100) -- Kích thước nhỏ của logo
+logoButton.Position = UDim2.new(0.5, -50, 0, 10) -- Vị trí của logo
 logoButton.Image = "http://www.roblox.com/asset/?id=126101456053607" -- Thay bằng URL hình ảnh logo
 logoButton.Parent = screenGui
 
--- Tạo menu (ẩn ban đầu)
+-- Tạo menu (vẫn giữ kích thước cũ của menu)
 local menu = Instance.new("Frame")
 menu.Size = UDim2.new(0, 300, 0, 400) -- Kích thước của menu
 menu.Position = UDim2.new(0.5, -150, 0.5, -200) -- Vị trí của menu
@@ -58,7 +58,7 @@ notification.Size = UDim2.new(0, 300, 0, 50)
 notification.Position = UDim2.new(0.5, -150, 0.2, 0) -- Vị trí thông báo trên màn hình
 notification.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Màu nền của thông báo
 notification.TextColor3 = Color3.fromRGB(255, 255, 255) -- Màu chữ thông báo
-notification.TextSize = 20
+notification.TextSize = 10
 notification.Text = "" -- Ban đầu không có thông báo
 notification.Visible = false -- Ẩn thông báo ban đầu
 notification.Parent = screenGui
