@@ -15,7 +15,7 @@ logoButton.Parent = screenGui
 
 -- Tạo menu (ẩn ban đầu)
 local menu = Instance.new("Frame")
-menu.Size = UDim2.new(0, 300, 0, 400) -- Kích thước của menu
+menu.Size = UDim2.new(0, 300, 0, 350) -- Kích thước của menu
 menu.Position = UDim2.new(0.5, -150, 0.5, -200) -- Vị trí của menu
 menu.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Màu nền của menu
 menu.Visible = false -- Ẩn menu ban đầu
