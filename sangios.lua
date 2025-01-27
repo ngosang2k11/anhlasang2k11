@@ -1,101 +1,96 @@
--- Tạo Menu "SANG IOS"
+-- Gọi đối tượng GUI
 local player = game.Players.LocalPlayer
-local screenGui = Instance.new("ScreenGui")
-screenGui.Parent = player:WaitForChild("PlayerGui")
+local playerGui = player.PlayerGui
+local screenGui = Instance.new("ScreenGui", playerGui)
 
-local menuFrame = Instance.new("Frame")
-menuFrame.Parent = screenGui
-menuFrame.Size = UDim2.new(0, 300, 0, 200)
-menuFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
-menuFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Nền màu đen
-menuFrame.Visible = false -- Ẩn menu mặc định
+-- Tạo phần menu
+local menuFrame = Instance.new("Frame", screenGui)
+menuFrame.Size = UDim2.new(0, 200, 0, 100)
+menuFrame.Position = UDim2.new(0, 0, 0, 0)
+menuFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+menuFrame.Visible = false  -- Ẩn menu khi bắt đầu
 
-local title = Instance.new("TextLabel")
-title.Parent = menuFrame
-title.Size = UDim2.new(1, 0, 0, 40)
-title.Text = "SANG IOS"
-title.TextColor3 = Color3.fromRGB(255, 255, 255) -- Chữ màu trắng
-title.TextSize = 24
-title.TextAlign = Enum.TextXAlignment.Center
-title.BackgroundTransparency = 1
+-- Tạo nút "SANG IOS"
+local sangIosButton = Instance.new("TextButton", menuFrame)
+sangIosButton.Size = UDim2.new(1, 0, 0.2, 0)
+sangIosButton.Text = "SANG IOS"
+sangIosButton.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
+sangIosButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 
--- Công tắc RD FRUIT
-local rdFruitToggle = Instance.new("TextButton")
-rdFruitToggle.Parent = menuFrame
-rdFruitToggle.Size = UDim2.new(0.8, 0, 0, 40)
-rdFruitToggle.Position = UDim2.new(0.5, -120, 0.5, -20)
-rdFruitToggle.Text = "RD FRUIT: OFF"
-rdFruitToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
-rdFruitToggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-rdFruitToggle.TextSize = 18
-rdFruitToggle.TextAlign = Enum.TextXAlignment.Center
+-- Tạo nút "RD FRUIT" để bật/tắt chức năng
+local rdFruitButton = Instance.new("TextButton", menuFrame)
+rdFruitButton.Size = UDim2.new(1, 0, 0.2, 0)
+rdFruitButton.Position = UDim2.new(0, 0, 0.2, 0)
+rdFruitButton.Text = "RD FRUIT"
+rdFruitButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+rdFruitButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 
-local isRdFruitOn = false
+-- Tạo TextLabel để hiển thị trạng thái RD FRUIT
+local rdFruitStatus = Instance.new("TextLabel", menuFrame)
+rdFruitStatus.Size = UDim2.new(1, 0, 0.2, 0)
+rdFruitStatus.Position = UDim2.new(0, 0, 0.4, 0)
+rdFruitStatus.Text = "RD FRUIT: OFF"
+rdFruitStatus.TextColor3 = Color3.fromRGB(0, 0, 0)
+rdFruitStatus.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 
--- Toggle công tắc RD FRUIT
-rdFruitToggle.MouseButton1Click:Connect(function()
-    isRdFruitOn = not isRdFruitOn
-    if isRdFruitOn then
-        rdFruitToggle.Text = "RD FRUIT: ON"
-    else
-        rdFruitToggle.Text = "RD FRUIT: OFF"
-    end
-end)
+-- Biến để theo dõi trạng thái RD FRUIT
+local rdFruitEnabled = false
 
--- Ẩn/Hiện Menu khi ấn vào chữ "SANG IOS"
+-- Hàm mở/đóng menu
 local function toggleMenu()
     menuFrame.Visible = not menuFrame.Visible
 end
 
-title.MouseButton1Click:Connect(toggleMenu)
+-- Hàm bật/tắt chức năng RD FRUIT
+local function toggleRDFruit()
+    rdFruitEnabled = not rdFruitEnabled
+    if rdFruitEnabled then
+        rdFruitStatus.Text = "RD FRUIT: ON"
+    else
+        rdFruitStatus.Text = "RD FRUIT: OFF"
+    end
+end
 
--- Tạo một NPC Blox Fruit Gacha giả lập trong game
-local npc = workspace:WaitForChild("BloxFruitGacha") -- NPC BloxFruitGacha
+-- Xử lý sự kiện khi bấm nút "SANG IOS" để mở/đóng menu
+sangIosButton.MouseButton1Click:Connect(toggleMenu)
 
--- Hàm cấp trái ác quỷ Dragon nếu bật RD FRUIT và người chơi đủ điều kiện
-local function giveDragonFruit(character)
-    if isRdFruitOn then
-        -- Kiểm tra nếu người chơi có đủ level (ví dụ: Level >= 50)
-        local level = character:FindFirstChild("Level") -- Giả sử có thuộc tính Level
-        if level and level.Value >= 50 then
-            local fruits = {"Dragon"} -- Chỉ cho trái Dragon
-            local randomFruit = fruits[math.random(1, #fruits)] -- Luôn luôn chọn Dragon
+-- Xử lý sự kiện khi bấm nút "RD FRUIT" để bật/tắt chức năng
+rdFruitButton.MouseButton1Click:Connect(toggleRDFruit)
 
-            print(character.Name .. " đã nhận được trái Ác Quỷ " .. randomFruit)
-            -- Logic cấp trái Dragon cho người chơi (giả sử là thêm vào inventory)
+-- Hàm random trái ác quỷ Dragon
+local function randomFruit()
+    if rdFruitEnabled then
+        -- Trái ác quỷ Dragon
+        local fruit = Instance.new("Model")
+        local fruitName = Instance.new("StringValue")
+        fruitName.Name = "FruitName"
+        fruitName.Value = "Dragon"
+        fruitName.Parent = fruit
+        fruit.Parent = game.Workspace
+        
+        -- Giả sử NPC này sẽ cho người chơi trái ác quỷ khi gần
+        local fruitPos = game.Workspace:WaitForChild("Blox Fruit Gacha").Position + Vector3.new(0, 5, 0)  -- Vị trí random gần NPC
+        fruit:SetPrimaryPartCFrame(CFrame.new(fruitPos))
+        
+        -- Thông báo cho người chơi nhận được trái ác quỷ
+        game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Bạn đã nhận được trái ác quỷ Dragon!", "All")
+    end
+end
 
-            local fruitItem = Instance.new("StringValue") -- Tạo một item trái ác quỷ mới
-            fruitItem.Name = "Fruit"
-            fruitItem.Value = randomFruit
-            fruitItem.Parent = character -- Thêm trái Dragon vào người chơi
-
-            -- Hiển thị thông báo cho người chơi
-            local message = Instance.new("Message")
-            message.Text = character.Name .. " đã nhận được trái Ác Quỷ Dragon!"
-            message.Parent = game.Workspace
-            wait(3)
-            message:Destroy()
-
-        else
-            -- Nếu người chơi không đủ level
-            local message = Instance.new("Message")
-            message.Text = character.Name .. " chưa đủ level để nhận trái Ác Quỷ!"
-            message.Parent = game.Workspace
-            wait(3)
-            message:Destroy()
+-- Kiểm tra xem người chơi có đến gần NPC và RD FRUIT đã bật chưa
+local function checkProximity()
+    while true do
+        wait(1)  -- Kiểm tra mỗi giây
+        local playerPos = player.Character.HumanoidRootPart.Position
+        local npcPos = game.Workspace:WaitForChild("Blox Fruit Gacha").Position
+        local distance = (playerPos - npcPos).Magnitude
+        
+        -- Nếu người chơi đến gần NPC và chức năng RD FRUIT đã bật
+        if distance < 10 and rdFruitEnabled then
+            randomFruit()
         end
     end
 end
 
--- Kiểm tra khi người chơi chạm vào NPC Blox Fruit Gacha
-npc.Touched:Connect(function(hit)
-    local character = hit.Parent
-    if character:IsA("Model") and character:FindFirstChild("Humanoid") then
-        if character == player.Character then
-            giveDragonFruit(character) -- Cấp trái Dragon khi RD FRUIT bật và đủ điều kiện
-        end
-    end
-end)
-
--- Đảm bảo menu được ẩn khi game bắt đầu
-menuFrame.Visible = false
+-- Bắt đầu kiểm tra khoảng cách
+checkProximity()
