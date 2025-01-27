@@ -15,17 +15,18 @@ menuFrame.Visible = false  -- Ban đầu ẩn menu
 local toggleButton = Instance.new("TextButton")
 toggleButton.Parent = screenGui
 toggleButton.Size = UDim2.new(0, 200, 0, 50)
-toggleButton.Position = UDim2.new(0, 300, 0, 150)  -- Vị trí nút
+toggleButton.Position = UDim2.new(0, 10, 0, 10)  -- Vị trí nút ở góc trên bên trái
+toggleButton.AnchorPoint = Vector2.new(0, 0)  -- Gắn nút ở góc trên bên trái
 toggleButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)  -- Nền màu đen
 toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Chữ trắng
 toggleButton.Text = "SANG IOS"  -- Tên nút là "SANG IOS"
 toggleButton.Font = Enum.Font.SourceSans
 toggleButton.TextSize = 24
 
--- Tạo một nút switch để bật/tắt
+-- Tạo một switch để bật/tắt, thay cho nút RD FRUIT
 local switchButton = Instance.new("TextButton")
 switchButton.Parent = menuFrame
-switchButton.Size = UDim2.new(0, 180, 0, 50)  -- Kích thước nút switch
+switchButton.Size = UDim2.new(0, 180, 0, 50)  -- Kích thước của switch
 switchButton.Position = UDim2.new(0, 10, 0, 60)  -- Vị trí switch trong menu
 switchButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)  -- Nền màu đen
 switchButton.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Chữ trắng
@@ -40,8 +41,10 @@ switchButton.MouseButton1Click:Connect(function()
     isSwitchOn = not isSwitchOn  -- Đảo trạng thái switch
     if isSwitchOn then
         switchButton.Text = "Switch: ON"  -- Cập nhật trạng thái bật
+        switchButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- Màu nền xanh khi bật
     else
         switchButton.Text = "Switch: OFF"  -- Cập nhật trạng thái tắt
+        switchButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Màu nền đỏ khi tắt
     end
 end)
 
@@ -70,8 +73,8 @@ local function randomDevilFruit()
         -- Nếu switch tắt, chọn ngẫu nhiên trái ác quỷ khác
         local fruits = {
             "Kisune",  -- Ví dụ trái ác quỷ Phoenix
-            "Dough",  -- Ví dụ trái ác quỷ Magma
-            "Leopard",  -- Ví dụ trái ác quỷ Ice
+            "Leopard",  -- Ví dụ trái ác quỷ Magma
+            "Yeti",  -- Ví dụ trái ác quỷ Ice
             -- Có thể thêm nhiều trái ác quỷ khác vào danh sách này
         }
 
