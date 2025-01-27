@@ -8,7 +8,7 @@ screenGui.Parent = playerGui
 
 -- Tạo logo dưới dạng một ImageButton (Logo sẽ nhỏ hơn)
 local logoButton = Instance.new("ImageButton")
-logoButton.Size = UDim2.new(0, 100, 0, 100) -- Kích thước nhỏ của logo
+logoButton.Size = UDim2.new(0, 62, 0, 62) -- Kích thước nhỏ của logo
 logoButton.Position = UDim2.new(0.5, -50, 0, 10) -- Vị trí của logo
 logoButton.Image = "http://www.roblox.com/asset/?id=126101456053607" -- Thay bằng URL hình ảnh logo
 logoButton.Parent = screenGui
@@ -26,7 +26,7 @@ local menuTitle = Instance.new("TextLabel")
 menuTitle.Size = UDim2.new(0, 300, 0, 50) -- Kích thước của tiêu đề
 menuTitle.Position = UDim2.new(0, 0, 0, 0) -- Vị trí tiêu đề ở đầu menu
 menuTitle.Text = "SANG IOS V1" -- Tiêu đề menu
-menuTitle.TextSize = 10 -- Kích thước chữ
+menuTitle.TextSize = 24 -- Kích thước chữ
 menuTitle.TextColor3 = Color3.fromRGB(0, 0, 0) -- Màu chữ
 menuTitle.BackgroundTransparency = 1 -- Không có nền cho tiêu đề
 menuTitle.Parent = menu
@@ -58,7 +58,7 @@ notification.Size = UDim2.new(0, 300, 0, 50)
 notification.Position = UDim2.new(0.5, -150, 0.2, 0) -- Vị trí thông báo trên màn hình
 notification.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Màu nền của thông báo
 notification.TextColor3 = Color3.fromRGB(255, 255, 255) -- Màu chữ thông báo
-notification.TextSize = 10
+notification.TextSize = 20
 notification.Text = "" -- Ban đầu không có thông báo
 notification.Visible = false -- Ẩn thông báo ban đầu
 notification.Parent = screenGui
